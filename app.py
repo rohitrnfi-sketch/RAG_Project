@@ -188,17 +188,18 @@ with st.sidebar:
     groq_api_key = st.text_input(
         "🔑 Groq API Key",
         type="password",
-        placeholder="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",
+        placeholder="gsk_...",
         help="https://console.groq.com se free API key lo"
     )
 
     model_choice = st.selectbox(
         "🤖 Model",
         options=[
-            "llama3-70b-8192",
-            "llama3-8b-8192",
-            "mixtral-8x7b-32768",
-            "gemma2-9b-it",
+            "llama-3.3-70b-versatile",    # ✅ Best quality (recommended)
+            "llama-3.1-8b-instant",        # ✅ Fast & lightweight
+            "llama4-scout-17b-16e-instruct", # ✅ Llama 4 Scout
+            "meta-llama/llama-4-maverick-17b-128e-instruct",  # ✅ Llama 4 Maverick
+            "qwen-qwq-32b",               # ✅ Reasoning model
         ],
         index=0,
     )
