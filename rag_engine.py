@@ -2,13 +2,14 @@
 # Text ko chunks mein todta hai, embed karta hai, FAISS mein store karta hai
 # aur query ke basis pe relevant chunks dhundh ke Groq se answer leta hai
 
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+import streamlit as st
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_groq import ChatGroq
-from langchain.chains import RetrievalQA
-from langchain.prompts import PromptTemplate
-import streamlit as st
+from langchain_core.prompts import PromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnablePassthrough
 
 
 # ── Embedding model (free, local) ─────────────────────────────────────────────
@@ -36,7 +37,7 @@ def build_vectorstore(chunks: list[str]):
     return vectorstore
 
 
-# ── QA Chain banana ────────────────────────────────────────────────────────────
+# ── QA Chain banana (LCEL style — naye LangChain ke saath compatible) ──────────
 def build_qa_chain(vectorstore, groq_api_key: str, model_name: str):
     llm = ChatGroq(
         api_key=groq_api_key,
@@ -44,7 +45,9 @@ def build_qa_chain(vectorstore, groq_api_key: str, model_name: str):
         temperature=0.2,
     )
 
-    prompt_template = """
+    retriever = vectorstore.as_retriever(search_kwargs={"k": 4})
+
+    prompt = PromptTemplate.from_template("""
 Aap ek helpful assistant hain. Neeche diye gaye context ke basis pe user ke sawaal ka jawab do.
 Agar jawab context mein nahi hai toh clearly bolo "Mujhe is file mein yeh information nahi mili."
 Jawab Hindi ya English mein de sakte ho jis mein user ne poochha ho.
@@ -54,27 +57,34 @@ Context:
 
 Sawaal: {question}
 
-Jawab:"""
+Jawab:""")
 
-    prompt = PromptTemplate(
-        template=prompt_template,
-        input_variables=["context", "question"]
+    def format_docs(docs):
+        return "\n\n".join(doc.page_content for doc in docs)
+
+    # LCEL chain — RetrievalQA ka modern replacement
+    chain = (
+        {
+            "context": retriever | format_docs,
+            "question": RunnablePassthrough(),
+        }
+        | prompt
+        | llm
+        | StrOutputParser()
     )
 
-    qa_chain = RetrievalQA.from_chain_type(
-        llm=llm,
-        chain_type="stuff",
-        retriever=vectorstore.as_retriever(search_kwargs={"k": 4}),
-        chain_type_kwargs={"prompt": prompt},
-        return_source_documents=True,
-    )
-    return qa_chain
+    return {"chain": chain, "retriever": retriever}
 
 
 # ── Query run karna ────────────────────────────────────────────────────────────
-def ask_question(qa_chain, question: str) -> dict:
-    result = qa_chain.invoke({"query": question})
+def ask_question(qa_chain: dict, question: str) -> dict:
+    chain    = qa_chain["chain"]
+    retriever = qa_chain["retriever"]
+
+    answer  = chain.invoke(question)
+    sources = retriever.invoke(question)   # source docs bhi fetch karo
+
     return {
-        "answer": result["result"],
-        "sources": result.get("source_documents", []),
+        "answer": answer,
+        "sources": sources,
     }
