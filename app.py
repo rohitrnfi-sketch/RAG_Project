@@ -16,155 +16,167 @@ st.set_page_config(
 # ── Custom CSS ─────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 
 html, body, [class*="css"] {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Inter', sans-serif !important;
 }
 
-h1, h2, h3 {
-    font-family: 'Syne', sans-serif !important;
-}
+/* ── App Background ── */
+.stApp { background-color: #212121 !important; }
+.main  { background-color: #212121 !important; color: #ececec; }
 
-.main { background-color: #0f0f13; color: #e8e6e0; }
-.stApp { background-color: #0f0f13; }
-
-/* Sidebar */
+/* ── Sidebar ── */
 [data-testid="stSidebar"] {
-    background: linear-gradient(160deg, #1a1a24 0%, #12121a 100%);
-    border-right: 1px solid #2a2a3a;
+    background-color: #171717 !important;
+    border-right: 1px solid #2e2e2e !important;
+}
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] .stMarkdown p {
+    color: #8a8a8a !important;
+    font-size: 12px !important;
 }
 
-/* Heading */
+/* ── Title area ── */
 .hero-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 2.8rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, #e8c97e, #d4845a, #c05c7e);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    line-height: 1.1;
-    margin-bottom: 0.2rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #ececec;
+    padding: 4px 0;
 }
-
 .hero-sub {
-    font-size: 1rem;
-    color: #888;
-    margin-bottom: 2rem;
-    font-weight: 300;
+    font-size: 0.8rem;
+    color: #8a8a8a;
+    margin-bottom: 1rem;
 }
 
-/* Chat bubbles */
+/* ── Divider ── */
+.divider {
+    border: none;
+    border-top: 1px solid #2e2e2e;
+    margin: 1rem 0;
+}
+
+/* ── Chat bubbles ── */
+.user-label {
+    font-size: 11px;
+    color: #8a8a8a;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-align: right;
+    margin-bottom: 4px;
+}
 .user-bubble {
-    background: linear-gradient(135deg, #2a1f3d, #1e1a2e);
-    border: 1px solid #3d2d5e;
-    border-radius: 18px 18px 4px 18px;
-    padding: 14px 18px;
-    margin: 10px 0;
-    margin-left: 15%;
-    color: #e8e6e0;
-    font-size: 0.95rem;
-}
-
-.ai-bubble {
-    background: linear-gradient(135deg, #1a1f2e, #131820);
-    border: 1px solid #2a3550;
-    border-radius: 18px 18px 18px 4px;
-    padding: 14px 18px;
-    margin: 10px 0;
-    margin-right: 15%;
-    color: #e8e6e0;
-    font-size: 0.95rem;
-    line-height: 1.6;
+    background: rgba(16, 163, 127, 0.1);
+    border: 1px solid rgba(16, 163, 127, 0.25);
+    border-radius: 12px 4px 12px 12px;
+    padding: 12px 16px;
+    margin: 4px 0 12px 20%;
+    color: #ececec;
+    font-size: 0.9rem;
+    line-height: 1.65;
 }
 
 .ai-label {
-    font-size: 0.75rem;
-    color: #e8c97e;
-    font-weight: 700;
-    letter-spacing: 0.1em;
+    font-size: 11px;
+    color: #8a8a8a;
+    font-weight: 500;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
-    margin-bottom: 6px;
-    font-family: 'Syne', sans-serif;
+    margin-bottom: 4px;
+}
+.ai-bubble {
+    background: #2a2a2a;
+    border: 1px solid #3a3a3a;
+    border-radius: 4px 12px 12px 12px;
+    padding: 12px 16px;
+    margin: 4px 0 12px 0;
+    margin-right: 20%;
+    color: #ececec;
+    font-size: 0.9rem;
+    line-height: 1.65;
 }
 
-.user-label {
-    font-size: 0.75rem;
-    color: #c05c7e;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 6px;
-    text-align: right;
-    font-family: 'Syne', sans-serif;
-}
-
-/* File chip */
+/* ── File chips ── */
 .file-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #2a2a2a;
+    border: 1px solid #3a3a3a;
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 12px;
+    color: #ececec;
+    margin: 3px 2px;
+}
+.file-chip::before {
+    content: '';
     display: inline-block;
-    background: #1e2a1e;
-    border: 1px solid #3a5a3a;
-    border-radius: 20px;
-    padding: 4px 14px;
-    font-size: 0.8rem;
-    color: #7ec87e;
-    margin: 3px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #10a37f;
 }
 
-/* Status badge */
+/* ── Status badge ── */
 .status-ready {
-    background: #1a2e1a;
-    border: 1px solid #3a7a3a;
+    background: rgba(16, 163, 127, 0.1);
+    border: 1px solid rgba(16, 163, 127, 0.3);
     border-radius: 8px;
     padding: 8px 14px;
-    color: #7ec87e;
-    font-size: 0.85rem;
+    color: #10a37f;
+    font-size: 0.82rem;
     font-weight: 500;
 }
 
-/* Source expander */
-.source-box {
-    background: #141420;
-    border: 1px solid #2a2a3a;
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-size: 0.8rem;
-    color: #888;
-    margin-top: 8px;
-    font-family: monospace;
-}
-
-/* Input box */
+/* ── Text input ── */
 .stTextInput > div > div > input {
-    background: #1a1a24 !important;
-    border: 1px solid #2a2a3a !important;
+    background: #2a2a2a !important;
+    border: 1px solid #3a3a3a !important;
     border-radius: 12px !important;
-    color: #e8e6e0 !important;
+    color: #ececec !important;
     padding: 12px 16px !important;
+    font-size: 14px !important;
+    font-family: 'Inter', sans-serif !important;
+}
+.stTextInput > div > div > input:focus {
+    border-color: #10a37f !important;
+    box-shadow: 0 0 0 2px rgba(16, 163, 127, 0.15) !important;
+}
+.stTextInput > div > div > input::placeholder {
+    color: #5a5a5a !important;
 }
 
-/* Button */
+/* ── Selectbox ── */
+.stSelectbox > div > div {
+    background: #2a2a2a !important;
+    border: 1px solid #3a3a3a !important;
+    border-radius: 8px !important;
+    color: #ececec !important;
+}
+
+/* ── Buttons ── */
 .stButton > button {
-    background: linear-gradient(135deg, #e8c97e, #d4845a) !important;
-    color: #0f0f13 !important;
+    background: #10a37f !important;
+    color: #ffffff !important;
     border: none !important;
-    border-radius: 10px !important;
-    font-weight: 700 !important;
-    font-family: 'Syne', sans-serif !important;
-    padding: 10px 24px !important;
-    letter-spacing: 0.05em !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 13px !important;
+    padding: 9px 20px !important;
+    letter-spacing: 0.01em !important;
+    transition: opacity 0.15s ease !important;
 }
-
 .stButton > button:hover {
-    opacity: 0.85 !important;
-    transform: translateY(-1px) !important;
+    opacity: 0.88 !important;
+    background: #10a37f !important;
 }
 
-.divider {
-    border: none;
-    border-top: 1px solid #2a2a3a;
-    margin: 1.5rem 0;
-}
+/* ── Spinner & alerts ── */
+.stSpinner { color: #10a37f !important; }
+.stAlert   { border-radius: 8px !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -176,6 +188,8 @@ if "qa_chain" not in st.session_state:
     st.session_state.qa_chain = None
 if "uploaded_names" not in st.session_state:
     st.session_state.uploaded_names = []
+if "input_counter" not in st.session_state:
+    st.session_state.input_counter = 0
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -195,11 +209,11 @@ with st.sidebar:
     model_choice = st.selectbox(
         "🤖 Model",
         options=[
-            "llama-3.3-70b-versatile",    # ✅ Best quality (recommended)
-            "llama-3.1-8b-instant",        # ✅ Fast & lightweight
-            "llama4-scout-17b-16e-instruct", # ✅ Llama 4 Scout
-            "meta-llama/llama-4-maverick-17b-128e-instruct",  # ✅ Llama 4 Maverick
-            "qwen-qwq-32b",               # ✅ Reasoning model
+            "llama-3.3-70b-versatile",
+            "llama-3.1-8b-instant",
+            "llama4-scout-17b-16e-instruct",
+            "meta-llama/llama-4-maverick-17b-128e-instruct",
+            "qwen-qwq-32b",
         ],
         index=0,
     )
@@ -216,7 +230,6 @@ with st.sidebar:
 
     process_btn = st.button("🚀 Process Files", use_container_width=True)
 
-    # Already uploaded files show karo
     if st.session_state.uploaded_names:
         st.markdown("<hr class='divider'>", unsafe_allow_html=True)
         st.markdown("**✅ Loaded Files:**")
@@ -291,13 +304,18 @@ if st.session_state.qa_chain:
 # ── Chat History ───────────────────────────────────────────────────────────────
 for chat in st.session_state.chat_history:
     if chat["role"] == "user":
-        st.markdown(f"<div class='user-label'>Aap</div><div class='user-bubble'>{chat['content']}</div>", unsafe_allow_html=True)
+        st.markdown(
+            f"<div class='user-label'>Aap</div>"
+            f"<div class='user-bubble'>{chat['content']}</div>",
+            unsafe_allow_html=True
+        )
     else:
-        st.markdown(f"<div class='ai-label'>🧠 AI</div><div class='ai-bubble'>{chat['content']}</div>", unsafe_allow_html=True)
-        if chat.get("sources"):
-            with st.expander("📎 Source Chunks dekho"):
-                for i, doc in enumerate(chat["sources"][:3], 1):
-                    st.markdown(f"<div class='source-box'><b>Chunk {i}:</b><br>{doc.page_content[:300]}...</div>", unsafe_allow_html=True)
+        st.markdown(
+            f"<div class='ai-label'>🧠 AI</div>"
+            f"<div class='ai-bubble'>{chat['content']}</div>",
+            unsafe_allow_html=True
+        )
+        # ✅ Source chunks removed — user ko nahi dikhega
 
 # ── Query Input ────────────────────────────────────────────────────────────────
 st.markdown("<br>", unsafe_allow_html=True)
@@ -309,7 +327,7 @@ if st.session_state.qa_chain:
             "Apna sawaal likho",
             placeholder="e.g. Is file mein revenue kitna hai? / What is the main topic?",
             label_visibility="collapsed",
-            key="query_input"
+            key=f"query_input_{st.session_state.input_counter}"  # ✅ counter se field clear hoti hai
         )
     with col2:
         send_btn = st.button("Send ➤", use_container_width=True)
@@ -332,6 +350,7 @@ if st.session_state.qa_chain:
                     "sources": [],
                 })
 
+        st.session_state.input_counter += 1  # ✅ counter badhao = input field empty ho jaata hai
         st.rerun()
 else:
     st.info("👈 Sidebar mein **Groq API Key** dalo, **files upload** karo aur **Process Files** click karo!")
